@@ -1,0 +1,13 @@
+group = "net.evecom"
+version = "1.0-SNAPSHOT"
+
+apply plugins:"java"
+apply plugins:"maven"
+apply plugins:"war"
+apply plugins:"jar"
+apply plugins:"jetty"
+apply plugins:"idea"
+
+dependencies{
+
+}
