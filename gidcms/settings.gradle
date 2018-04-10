@@ -1,3 +1,0 @@
-rootProject.name = 'gidcms'
-
-include 'gidcms_client','gidcms_server'
