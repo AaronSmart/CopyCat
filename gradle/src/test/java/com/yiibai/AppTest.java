@@ -1,13 +1,9 @@
 package com.yiibai;
-
-/**
-* Hello world!
-*
-*/
-public class App
+public class AppTest
 {
-   public static void main( String[] args )
+   public static void main(String []args)
    {
-      System.out.println( "Hello World!" );
+	   System.out.println("hello this is Aaron Smart ,work to the jenkins");
    }
 }
+	

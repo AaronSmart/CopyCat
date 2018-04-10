@@ -1,13 +1,8 @@
 package com.yiibai;
-
-/**
-* Hello world!
-*
-*/
-public class App 
+public class App
 {
-   public static void main( String[] args )
-   {
-      System.out.println( "Hello World, Gradle Build Work! " );
-   }
+	public static void main(String []args)
+	{
+		System.out.println("hello world this is the test of jenkins,never fuck up ");
+	}
 }
