@@ -1,9 +1,7 @@
-# CopyCat little young man
+# CopyCat
 One cat just leads to another
 
-Study  make me move forward
-
-Try to join the expert group 
+Software Engineering in Digital Group
 
 Make Things  simple  & swift  & super & smart  &  safe 
 
@@ -11,5 +9,5 @@ Connect me
 
  KikennGroup@gmail.com 
 
-AaronSmart@qq.com
+ AaronSmart@qq.com
 
