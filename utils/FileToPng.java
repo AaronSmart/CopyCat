@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  *  文件和图片映射关系 by copycat 2024-09-07 特殊功能类
  *    <dependencies>
@@ -25,8 +29,8 @@ import java.io.IOException;
 
 public class FileToPng {
 
-    // 将文件转换为PNG图片
-    public static void fileToPng(String inputFilePath, String outputPngPath) throws IOException {
+    // 将文件转换为PNG图片，并使用文件内容的MD5作为输出文件名
+    public static void fileToPng(String inputFilePath, String outputDirectory) throws IOException, NoSuchAlgorithmException {
         File inputFile = new File(inputFilePath);
         FileInputStream fis = new FileInputStream(inputFile);
 
@@ -39,7 +43,11 @@ public class FileToPng {
         }
         fis.close();
         byte[] fileBytes = baos.toByteArray();
-        //一个像素可以存三个字节的数据
+
+        // 获取文件内容的MD5哈希值
+        // 文件名改为md5,这样更容易判断是否在传输的过程中获取的图片是否被第三方软件进行了压缩
+        String md5FileName = getMD5Hash(fileBytes).toUpperCase() + ".png";
+
         int width = (int) Math.ceil(Math.sqrt(fileBytes.length / 3.0));
         int height = width;
 
@@ -56,7 +64,19 @@ public class FileToPng {
             }
         }
 
-        ImageIO.write(bufferedImage, "png", new File(outputPngPath));
+        ImageIO.write(bufferedImage, "png", new File(outputDirectory, md5FileName));
+    }
+
+    private static String getMD5Hash(byte[] data) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(data);
+        BigInteger number = new BigInteger(1, messageDigest);
+        StringBuilder hashtext = new StringBuilder(number.toString(16));
+        // 如果需要补零以匹配32个字符长度
+        while (hashtext.length() < 32) {
+            hashtext.insert(0, '0');
+        }
+        return hashtext.toString();
     }
 
     // 从PNG图片还原文件
@@ -67,7 +87,6 @@ public class FileToPng {
         int height = bufferedImage.getHeight();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int color = bufferedImage.getRGB(x, y);
@@ -89,9 +108,9 @@ public class FileToPng {
 
     public static void main(String[] args) {
         try {
-            //fileToPng("C:\\Users\\Administrator\\Desktop\\hello.java", "hello.png");
-            pngToFile("hello.png", "hello.java");
-        } catch (IOException e) {
+            fileToPng("C:\\Users\\Administrator\\Desktop\\hello.txt", null);
+            //pngToFile("hello.png", "hello.java");
+        } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
