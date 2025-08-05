@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面 A</title>
+</head>
+<body>
+    <h1>这是页面 A</h1>
+    <p>点击下面的按钮打开页面 B 并传递参数。</p>
+
+    <!-- 方式一：使用链接 (a 标签) -->
+    <a href="donate.html?paramAddress=CpWMeMznCcfAP2ZyeuoPiE1wYTiaJJFppr9hQfzUHvwc&paramAmount=0.8" target="_blank">
+        打开 B 页面 (链接方式)
+    </a>
+
+    <br><br>
+
+    <!-- 方式二：使用 JavaScript (window.open) -->
+    <button onclick="openBPage()">打开 B 页面 (JS 方式)</button>
+
+    <script>
+        function openBPage() {
+            // 构造要传递的参数
+            const paramAddress = "4z8D2vPNuvt8gK22T8mvnpEPhSmiTpn9HZBF4Jw9YUq6";
+            const paramAmount = "0.2";
+
+            // 使用 encodeURIComponent 确保参数值安全地包含在 URL 中
+            const url = `donate.html?paramAddress=${encodeURIComponent(paramAddress)}&paramAmount=${encodeURIComponent(paramAmount)}`;
+
+            // 打开新窗口
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

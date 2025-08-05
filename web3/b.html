@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面 B</title>
+</head>
+<body>
+    <h1>这是页面 B</h1>
+    <p id="result">正在加载参数...</p>
+
+    <script>
+        // 方法一：使用 URLSearchParams (现代浏览器推荐)
+        function getParamsWithURLSearchParams() {
+            // 获取当前页面的查询字符串部分 (例如: ?paramA=value1&paramB=value2)
+            const queryString = window.location.search;
+
+            // 如果没有查询参数，返回空对象
+            if (!queryString) {
+                return {};
+            }
+
+            // 创建 URLSearchParams 对象来解析查询字符串
+            const urlParams = new URLSearchParams(queryString);
+
+            // 获取参数值
+            const paramA = urlParams.get('paramA'); // 获取 paramA 的值
+            const paramB = urlParams.get('paramB'); // 获取 paramB 的值
+
+            // 返回一个包含参数的对象
+            return {
+                paramA: paramA,
+                paramB: paramB
+                // 可以继续添加其他参数...
+            };
+        }
+
+        // 方法二：使用传统方式解析 (兼容性更好)
+        function getParamsWithRegex() {
+            const queryString = window.location.search.substring(1); // 去掉开头的 '?'
+            const params = {};
+
+            if (queryString) {
+                const pairs = queryString.split('&');
+                for (let pair of pairs) {
+                    const [key, value] = pair.split('=');
+                    // 使用 decodeURIComponent 解码参数值
+                    params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+                }
+            }
+
+            return params;
+        }
+
+        // 页面加载完成后执行
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // 使用推荐的方法 (URLSearchParams)
+            const params = getParamsWithURLSearchParams();
+
+            // 或者使用传统方法 (如果需要兼容老浏览器)
+            // const params = getParamsWithRegex();
+
+            // 获取显示结果的元素
+            const resultElement = document.getElementById('result');
+
+            // 检查是否获取到了参数
+            if (params.paramA || params.paramB) {
+                resultElement.innerHTML = `
+                    <strong>成功获取到参数：</strong><br>
+                    paramA: ${params.paramA || '未提供'}<br>
+                    paramB: ${params.paramB || '未提供'}
+                `;
+            } else {
+                resultElement.textContent = "没有找到任何参数。";
+            }
+        });
+    </script>
+</body>
+</html>
